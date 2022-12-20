@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\RequestHelper;
 use App\Http\Resources\TaskResource;
 use App\Models\MiKeyInformation;
+use App\Models\MiServer;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
@@ -41,7 +42,10 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-
+        $server = MiServer::where('name', '=', $id)->firstOrFail();
+        $key = MiKeyInformation::query();
+        $key = $key->where([['status', '=', 'pending'], ['server_id', '=', $server->id]])->firstOrFail();
+        return new TaskResource($key);
     }
 
     /**

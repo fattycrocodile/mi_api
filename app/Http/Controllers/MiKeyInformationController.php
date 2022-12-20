@@ -19,13 +19,16 @@ class MiKeyInformationController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'key' => 'required'
+            'key' => 'required',
+            'server_id' => 'required'
         ]);
+
         $keyInfo = new MiKeyInformation();
         $keyInfo->key = $request->key;
         if(isset($request->key_type)) {
             $keyInfo->key_type = $request->key_type;
         }
+        $keyInfo->server_id = $request->server_id;
         $keyInfo->client_ip = RequestHelper::clientIp($request);
         $keyInfo->save();
         $keyInfo = MiKeyInformation::find($keyInfo->id);

@@ -21,7 +21,7 @@ class CreateMiServersTable extends Migration
             $table->ipAddress('ip');
             $table->boolean('status')->default(true);
             $table->bigInteger('limit')->default(0);
-            $table->json('extra');
+            $table->json('extra')->nullable();
 
             $table->timestamps();
         });
