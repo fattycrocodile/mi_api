@@ -17,9 +17,8 @@ class CreateMiServerLogsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('server_id');
             $table->ipAddress('server_ip');
-            $table->string('server_name', 45)->nullable();
-            $table->string('logs', 45)->nullable();
-
+            $table->string('server_name')->nullable();
+            $table->text('logs')->nullable();
             $table->foreign('server_id')->references('id')->on('mi_servers');
             $table->timestamps();
         });

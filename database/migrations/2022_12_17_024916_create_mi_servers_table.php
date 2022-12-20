@@ -15,7 +15,7 @@ class CreateMiServersTable extends Migration
     {
         Schema::create('mi_servers', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 45)->unique();
+            $table->string('name')->unique();
             $table->json('contact_info')->nullable();
             $table->json('admin_info')->nullable();
             $table->ipAddress('ip');

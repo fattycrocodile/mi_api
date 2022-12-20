@@ -16,8 +16,8 @@ class CreateMiKeyLogs extends Migration
         Schema::create('mi_key_logs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('key_id');
-            $table->string('key', 45);
-            $table->text('logs', 2000)->nullable();
+            $table->string('key');
+            $table->text('logs')->nullable();
             $table->ipAddress('client_ip')->nullable();
             $table->ipAddress('server_ip')->nullable();
 

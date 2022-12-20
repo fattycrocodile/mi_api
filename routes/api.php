@@ -40,6 +40,8 @@ Route::apiResource('mkey', 'MiKeyInformationController');
 // Route::delete('mi_servers/mi_key_informations/{mi_key_information}', 'MiKeyInformationController@delete');
 
 Route::apiResource('mklog', 'MiKeyLogController');
+
+Route::apiResource('task', 'TaskController');
 // Route::get('mi_key_informations/{mi_key_information}/mi_key_logs', 'MiKeyLogController@index');
 // Route::post('mi_key_informations/{mi_key_information}/mi_key_logs', 'MiKeyLogController@store');
 // Route::put('mi_key_informations/mi_key_logs/{mi_key_log}', 'MiKeyLogController@update');

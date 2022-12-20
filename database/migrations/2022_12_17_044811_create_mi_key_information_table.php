@@ -15,14 +15,13 @@ class CreateMiKeyInformationTable extends Migration
     {
         Schema::create('mi_key_informations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('server_id');
-            $table->string('key', 45);
+            $table->unsignedBigInteger('server_id')->nullable();
+            $table->string('key');
             $table->enum('key_type', ['reboot', 'flash', 'sideload'])->default('flash');
-            $table->string('token', 45)->nullable();
+            $table->string('token')->nullable();
             $table->ipAddress('client_ip')->nullable();
             $table->ipAddress('server_ip')->nullable();
             $table->enum('status', ['success', 'pending', 'error', 'sec_risk', 'limit_over', 'fmi_on'])->default('pending');
-
             $table->foreign('server_id')->references('id')->on('mi_servers');
             $table->timestamps();
         });
