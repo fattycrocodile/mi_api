@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\RequestHelper;
 use App\Http\Resources\TaskResource;
 use Illuminate\Http\Request;
 use App\Models\MiKeyInformation;
@@ -25,7 +26,7 @@ class MiKeyInformationController extends Controller
         if(isset($request->key_type)) {
             $keyInfo->key_type = $request->key_type;
         }
-        $keyInfo->client_ip = $request->ip();
+        $keyInfo->client_ip = RequestHelper::clientIp($request);
         $keyInfo->save();
         $keyInfo = MiKeyInformation::find($keyInfo->id);
         return new TaskResource($keyInfo);
@@ -40,7 +41,7 @@ class MiKeyInformationController extends Controller
     {
         $mi_key_information = MiKeyInformation::findorfail($id);
         $mi_key_information->token = $request->token;
-        $mi_key_information->server_ip = $request->ip();
+        $mi_key_information->server_ip = RequestHelper::clientIp($request);
         $mi_key_information->status = $request->status;
         $mi_key_information->save();
         return $mi_key_information;

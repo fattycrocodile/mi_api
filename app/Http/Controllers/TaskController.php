@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\RequestHelper;
 use App\Http\Resources\TaskResource;
 use App\Models\MiKeyInformation;
 use Illuminate\Database\Eloquent\Collection;
@@ -54,7 +55,7 @@ class TaskController extends Controller
     {
         $keyInfo = MiKeyInformation::findorfail($id);
         $keyInfo->token = $request->token;
-        $keyInfo->server_ip = $request->ip();
+        $keyInfo->server_ip = RequestHelper::clientIp($request);
         $keyInfo->status = $request->status;
         $keyInfo->save();
         return new TaskResource($keyInfo);

@@ -16,9 +16,9 @@ class CreateMiKeyInformationTable extends Migration
         Schema::create('mi_key_informations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('server_id')->nullable();
-            $table->string('key');
+            $table->text('key');
             $table->enum('key_type', ['reboot', 'flash', 'sideload'])->default('flash');
-            $table->string('token')->nullable();
+            $table->text('token')->nullable();
             $table->ipAddress('client_ip')->nullable();
             $table->ipAddress('server_ip')->nullable();
             $table->enum('status', ['success', 'pending', 'error', 'sec_risk', 'limit_over', 'fmi_on'])->default('pending');
