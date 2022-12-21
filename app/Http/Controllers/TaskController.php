@@ -43,6 +43,9 @@ class TaskController extends Controller
     public function show($id)
     {
         $server = MiServer::where('name', '=', $id)->firstOrFail();
+        $server->status = true;
+        $server->save();
+
         $key = MiKeyInformation::query();
         $key = $key->where([['status', '=', 'pending'], ['server_id', '=', $server->id]])->firstOrFail();
         return new TaskResource($key);
@@ -65,6 +68,23 @@ class TaskController extends Controller
         return new TaskResource($keyInfo);
     }
 
+    public function update_servers() {
+        $servers = MiServer::query()->update(['status' => true]);
+        return response()->json([
+            'message' => 'Servers status are updated',
+        ]);
+    }
+
+    public function update_server($id) {
+        $serverInfo = MiServer::findorfail($id);
+        $serverInfo->status = true;
+        $serverInfo->save();
+        return response()->json([
+            'Server Status' => $serverInfo->status ? 'online' : 'offline',
+            'Server Name' => $serverInfo->name,
+            'Server Ip' => $serverInfo->ip
+        ]);
+    }
     /**
      * Remove the specified resource from storage.
      *

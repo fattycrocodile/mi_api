@@ -44,7 +44,6 @@ class MiServerController extends Controller
     public function update(Request $request, MiServer $mi_server)
     {
         $mi_server->update($request->all());
-
         return $mi_server;
     }
 

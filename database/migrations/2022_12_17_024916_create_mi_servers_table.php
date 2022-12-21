@@ -19,10 +19,10 @@ class CreateMiServersTable extends Migration
             $table->json('contact_info')->nullable();
             $table->json('admin_info')->nullable();
             $table->ipAddress('ip');
+            $table->json('extra')->nullable();
             $table->boolean('status')->default(true);
             $table->bigInteger('limit')->default(0);
-            $table->json('extra')->nullable();
-
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
