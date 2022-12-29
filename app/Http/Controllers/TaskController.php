@@ -69,7 +69,7 @@ class TaskController extends Controller
     }
 
     public function update_servers() {
-        $servers = MiServer::query()->update(['status' => true]);
+        $servers = MiServer::query()->update(['status' => false]);
         return response()->json([
             'message' => 'Servers status are updated',
         ]);

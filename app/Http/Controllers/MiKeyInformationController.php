@@ -11,9 +11,10 @@ use App\Models\MiServer;
 class MiKeyInformationController extends Controller
 {
     //
-    public function index(MiServer $mi_server)
+    public function index()
     {
-        return $mi_server->key_informations->all();
+        $keys = MiKeyInformation::query();
+        return datatables()->eloquent($keys)->toJson();
     }
 
     public function store(Request $request)

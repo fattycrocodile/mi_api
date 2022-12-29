@@ -25,5 +25,5 @@ Route::apiResource('mkey', 'MiKeyInformationController');
 Route::apiResource('mklog', 'MiKeyLogController');
 
 Route::apiResource('task', 'TaskController')->except(['index', 'store', 'destroy']);
-Route::get('task/servers', 'TaskController@update_servers')->name('task.servers-update');
+Route::get('ping/servers', 'TaskController@update_servers')->name('task.servers-update');
 Route::get('task/server/{$id}', 'TaskController@update_server')->name('task.server-update');

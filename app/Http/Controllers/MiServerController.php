@@ -11,7 +11,8 @@ class MiServerController extends Controller
     //
     public function index()
     {
-        return MiServer::all();
+        $servers = MiServer::query();
+        return datatables()->eloquent($servers)->toJson();
     }
 
     public function show($id)
