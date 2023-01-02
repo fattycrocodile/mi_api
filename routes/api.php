@@ -27,3 +27,4 @@ Route::apiResource('mklog', 'MiKeyLogController');
 Route::apiResource('task', 'TaskController')->except(['index', 'store', 'destroy']);
 Route::get('ping/servers', 'TaskController@update_servers')->name('task.servers-update');
 Route::get('task/server/{$id}', 'TaskController@update_server')->name('task.server-update');
+Route::get('xetoken', 'MiSLALoaderController@xetoken');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\RequestHelper;
+use App\Http\Resources\MiKeyResource;
 use App\Http\Resources\TaskResource;
 use Illuminate\Http\Request;
 use App\Models\MiKeyInformation;
@@ -37,8 +38,8 @@ class MiKeyInformationController extends Controller
     }
 
     public function show($id) {
-        $keyInfo = new MiKeyInformation($id);
-        return new TaskResource($keyInfo);
+        $keyInfo = MiKeyInformation::findorfail($id);
+        return new MiKeyResource($keyInfo);
     }
 
     public function update(Request $request, $id)
@@ -51,10 +52,14 @@ class MiKeyInformationController extends Controller
         return $mi_key_information;
     }
 
-    public function delete(MiKeyInformation $mi_key_information)
+    public function destroy($id)
     {
-        $mi_key_information->delete();
+        $token = MiKeyInformation::findorfail($id);
+        $token->delete();
 
-        return 204;
+        return response()->json([
+            'message' => 'key deleted successfully',
+            'status' => true
+        ]);
     }
 }

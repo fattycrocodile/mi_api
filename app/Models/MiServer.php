@@ -18,9 +18,9 @@ class MiServer extends Model
         return $this->hasMany(MiServerLog::class, 'server_id');
     }
 
-    public function key_informations()
+    public function keys_list()
     {
-        return $this->hasMany(MiKeyInformation::class, 'server_id');
+        return $this->hasMany(MiKeyInformation::class, 'server_id', 'id');
     }
 
     public function key_logs()
@@ -34,4 +34,6 @@ class MiServer extends Model
             'id'
         );
     }
+
+
 }

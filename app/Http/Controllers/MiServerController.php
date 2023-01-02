@@ -17,23 +17,29 @@ class MiServerController extends Controller
 
     public function show($id)
     {
-        $mi_server = MiServer::where('name', '=', $id)->firstorFail();
-        return response()->json([
-            'server_ip' => $mi_server->ip,
-            'server_id' => $mi_server->id,
-            'status' => $mi_server->status,
-        ]);
+        $mi_server = MiServer::findorfail($id);
+        return $mi_server;
     }
 
     public function store(Request $request)
     {
         $this->validate($request, [
-            'user_id' => 'required|unique:mi_servers,name'
+            'user_id' => 'required|unique:mi_servers,auth_uid'
         ]);
 
         $server = new MiServer();
+        $server->name = $request->name;
         $server->ip = RequestHelper::clientIp($request);
-        $server->name = $request->user_id;
+        $server->region = $request->region;
+        $server->pcid = $request->pcid;
+        $server->auth_uid = !$request->has('user_id') ?: $request->user_id;
+        $server->passToken = $request->token;
+        $server->limit = $request->limit;
+        $server->status = !$request->has('status') ?: $request->status;
+        $server->job_type = !$request->has('job_type') ?: $request->job_type;
+        $server->interval = $request->interval;
+        $server->interval_type = $request->interval_type;
+        $server->is_active = !$request->has('is_active') ?: $request->is_active;
         $server->save();
 
         return response()->json([
@@ -42,16 +48,44 @@ class MiServerController extends Controller
         ]);
     }
 
-    public function update(Request $request, MiServer $mi_server)
+    public function update(Request $request,$id)
     {
-        $mi_server->update($request->all());
-        return $mi_server;
+        $server = MiServer::findorfail($id);
+        !$request->has('name') ?: $server->name = $request->name;
+        !$request->has('region') ?: $server->region = $request->region;
+        !$request->has('pcid') ?: $server->pcid = $request->pcid;
+        !$request->has('auth_uid') ?: $server->auth_uid = $request->auth_uid;
+        !$request->has('token') ?: $server->passToken = $request->token;
+        !$request->has('limit') ?: $server->limit = $request->limit;
+        !$request->has('status') ?: $server->status = $request->status;
+        !$request->has('job_type') ?: $server->job_type = $request->job_type;
+        !$request->has('interval') ?: $server->interval = $request->interval;
+        !$request->has('interval_type') ?: $server->interval_type = $request->interval_type;
+        !$request->has('is_active') ?: $server->is_active = $request->is_active;
+        $server->save();
+
+        return response()->json([
+            'message' => "{$server->pcid} Server updated successfully",
+            'status' => true
+        ]);
     }
 
-    public function delete(MiServer $mi_server)
+    public function destroy($id)
     {
-        $mi_server->delete();
+        $server = MiServer::findorfail($id);
 
-        return 204;
+        if(!$server->keys_list->isEmpty()) {
+            return response()->json([
+                'message' => 'Server already has keys list',
+                'status' => true
+            ], 500);
+        }
+
+        $server->delete();
+
+        return response()->json([
+            'message' => "{$server->pcid} Server is deleted successfully",
+            'status' => true
+        ]);
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class TaskResource extends JsonResource
 {
@@ -19,7 +18,7 @@ class TaskResource extends JsonResource
             'work_id' => $this->id,
             'blob' => $this->key,
             'value' => $this->token,
-            'status' => $this->status
+            'status' => $this->status,
         ];
     }
 }

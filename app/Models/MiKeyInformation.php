@@ -14,9 +14,9 @@ class MiKeyInformation extends Model
 
     protected $table = 'mi_key_informations';
 
-    public function server()
+    public function server_info()
     {
-        return $this->belongsTo(MiServer::class);
+        return $this->belongsTo(MiServer::class, 'server_id', 'id');
     }
 
     public function key_logs()

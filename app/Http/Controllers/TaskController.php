@@ -42,8 +42,8 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        $server = MiServer::where('name', '=', $id)->firstOrFail();
-        $server->status = true;
+        $server = MiServer::where('auth_uid', '=', $id)->firstOrFail();
+        $server->status = 'online';
         $server->save();
 
         $key = MiKeyInformation::query();
@@ -69,7 +69,7 @@ class TaskController extends Controller
     }
 
     public function update_servers() {
-        $servers = MiServer::query()->update(['status' => false]);
+        $servers = MiServer::query()->update(['status' => 'offline']);
         return response()->json([
             'message' => 'Servers status are updated',
         ]);
@@ -77,10 +77,10 @@ class TaskController extends Controller
 
     public function update_server($id) {
         $serverInfo = MiServer::findorfail($id);
-        $serverInfo->status = true;
+        $serverInfo->status = 'online';
         $serverInfo->save();
         return response()->json([
-            'Server Status' => $serverInfo->status ? 'online' : 'offline',
+            'Server Status' => $serverInfo->status,
             'Server Name' => $serverInfo->name,
             'Server Ip' => $serverInfo->ip
         ]);

@@ -17,7 +17,7 @@ class CreateMiKeyInformationTable extends Migration
             $table->id();
             $table->unsignedBigInteger('server_id')->nullable();
             $table->text('key');
-            $table->enum('key_type', ['reboot', 'flash', 'sideload'])->default('flash');
+            $table->enum('key_type', ['fastboot', 'flash', 'frp', 'all'])->default('flash');
             $table->text('token')->nullable();
             $table->ipAddress('client_ip')->nullable();
             $table->ipAddress('server_ip')->nullable();
