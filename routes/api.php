@@ -27,4 +27,5 @@ Route::apiResource('mklog', 'MiKeyLogController');
 Route::apiResource('task', 'TaskController')->except(['index', 'store', 'destroy']);
 Route::get('ping/servers', 'TaskController@update_servers')->name('task.servers-update');
 Route::get('task/server/{$id}', 'TaskController@update_server')->name('task.server-update');
-Route::get('xetoken', 'MiSLALoaderController@xetoken');
+Route::get('mi-sla-cron', 'TaskController@update_servers_cron')->name('task.cron.server-update');
+Route::post('xetoken', 'MiSLALoaderController@xetoken')->name('xetoken.generate');

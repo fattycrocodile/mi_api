@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\RequestHelper;
+use App\Models\MiKeyInformation;
 use App\Models\MiServer;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MiSLALoaderController extends Controller
 {
@@ -91,14 +93,25 @@ class MiSLALoaderController extends Controller
         $key_data = [
             'server_id' => $app_info->id,
             'key' => $request->deviceToken,
-            'key_type' => 'fastboot'
+            'key_type' => 'flash'
         ];
 
         $key_resp = app(MiKeyInformationController::class)->store($request->merge($key_data));
 
-        sleep(3);
+        $is_done = false;
+        while(!$is_done) {
+            $key_res = app(MiKeyInformationController::class)->show($key_resp->id);
+            if(!empty($key_res)) {
+                if($key_res->status != 'pending') {
+                    $is_done = true;
+                }
+            }
+        }
 
-        return app(MiKeyInformationController::class)->show($key_resp->work_id);
+        return response()->json([
+            'data' => $key_res->token,
+            'status' => $key_res->status
+        ]);
     }
 
 

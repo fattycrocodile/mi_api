@@ -36,7 +36,7 @@ class MiServerController extends Controller
         $server->passToken = $request->token;
         $server->limit = $request->limit;
         $server->status = !$request->has('status') ?: $request->status;
-        $server->job_type = !$request->has('job_type') ?: $request->job_type;
+        $server->job_type = !$request->has('job_type') ? 'flash' : $request->job_type;
         $server->interval = $request->interval;
         $server->interval_type = $request->interval_type;
         $server->is_active = !$request->has('is_active') ?: $request->is_active;

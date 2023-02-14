@@ -64,6 +64,10 @@ class TaskController extends Controller
         $keyInfo->token = $request->token;
         $keyInfo->server_ip = RequestHelper::clientIp($request);
         $keyInfo->status = $request->status;
+        if($request->status == 'success') {
+            $server = $keyInfo->server_info;
+            RequestHelper::update_mi_server($server->id, 1, $server->interval, $server->interval_type);
+        }
         $keyInfo->save();
         return new TaskResource($keyInfo);
     }
@@ -72,6 +76,13 @@ class TaskController extends Controller
         $servers = MiServer::query()->update(['status' => 'offline']);
         return response()->json([
             'message' => 'Servers status are updated',
+        ]);
+    }
+
+    public function update_servers_cron() {
+        $server = MiServer::query()->update([['status' => 'offline'], ['count' => '0']]);
+        return response()->json([
+            'message' => 'Server count is successfully updated'
         ]);
     }
 

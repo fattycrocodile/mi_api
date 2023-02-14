@@ -4,6 +4,8 @@ namespace App\Helpers;
 
 use Illuminate\Support\Carbon;
 
+use App\Models\MiServer;
+
 class RequestHelper {
 
     public static function clientIp($request) {
@@ -35,4 +37,13 @@ class RequestHelper {
             return $period;
         }
     }
+
+    public static function update_mi_server($id, $step, $time = null, $type = null) {
+        $model = MiServer::findorfail($id);
+        $model->count += $step;
+        ($time == null && $type == null) ?: $model->execution_time = RequestHelper::convert_period($type, $time);
+        $model->save();
+        return $model;
+    }
+
 }
