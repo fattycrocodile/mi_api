@@ -9,11 +9,13 @@ use Illuminate\Http\Request;
 use App\Models\MiKeyInformation;
 use App\Models\MiServer;
 
+
 class MiKeyInformationController extends Controller
 {
     //
     public function index()
     {
+
         $keys = MiKeyInformation::query();
         return datatables()->eloquent($keys)->toJson();
     }

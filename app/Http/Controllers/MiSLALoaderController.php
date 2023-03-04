@@ -73,7 +73,6 @@ class MiSLALoaderController extends Controller
     }
 
 
-
     public function xetoken(Request $request) {
 
         $this->validate($request, [
